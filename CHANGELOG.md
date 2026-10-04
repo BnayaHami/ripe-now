@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1 · 2026-10-04
+- Illustrations moved to an `images/` folder; `img` paths in `data.js` and the service worker cache list updated.
+- Fixed illustrations that did not appear on GitHub Pages: the paths in `data.js` now match the real file names exactly, including capitalization.
+- README: roadmap and publishing placeholders removed, real repository details filled in. Contributing guide simplified.
+
 ## 1.0.0 · 2026-10-03
 First public release.
 

@@ -1,8 +1,8 @@
 # Data sources and per-crop table
 
-*Generated from `data.js` (data version 1.0.0, October 2026). If you change `data.js`, regenerate or edit this file by hand.*
+*Generated from `data.js` (data version 1.0.1, October 2026). If you change `data.js`, regenerate or edit this file by hand.*
 
-All seasons and areas are **compiled from public sources, not measured by this project**. They were checked against sources in Hebrew and English, but they have **not been verified in the field**. Treat them as a well-grounded starting point. Please open an issue (or a pull request against `data.js`) with a source when you find a mistake.
+All seasons and areas are **compiled from public sources, not measured by this project**. They were checked against sources in Hebrew and English, but they have **not been verified in the field**. Treat them as a well-grounded starting point. Please open an issue with a source when you find a mistake.
 
 ## How the numbers were chosen
 

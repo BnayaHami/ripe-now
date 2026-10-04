@@ -4,8 +4,8 @@
 
 A mobile-first, installable web app (PWA, Hebrew, right-to-left) that tracks what is in season in Israel: wild and cultivated fruits, flowers and plants for people who make liqueurs, ferments, pickles and preserves (sumac, unripe green plums, katlav, olives, elderflower and more). It tells you what is ripe now, what starts soon, where in Israel you are most likely to find it, and gives you a calendar reminder so you are ready with jars and salt in time.
 
-> **Live app:** `https://BnayaHami.github.io/ripe-now/`
-> **Version:** 1.0.0 · **License:** MIT for the code (see [License](#license))
+> **Live app:** `https://bnayahami.github.io/ripe-now/`
+> **Version:** 1.0.1 · **License:** MIT for the code (see [License](#license))
 
 <!-- Add screenshots to docs/screenshots/ and uncomment:
 ![Now tab](docs/screenshots/now.png) ![Calendar](docs/screenshots/calendar.png) ![Map](docs/screenshots/map.png)
@@ -23,26 +23,33 @@ A mobile-first, installable web app (PWA, Hebrew, right-to-left) that tracks wha
 | **Links** | Google search for recipes and a Facebook posts search for each crop. |
 | **PWA** | Installable to the home screen, works offline for the list, calendar and crop sheets, and updates itself when online. |
 
-## Quick start
+## Use the app
 
-No build step, no dependencies to install. You only need a static file server (a service worker and the image export need `http://localhost` or `https`, not `file://`).
+Open the live app in your phone's browser (no download, no account, free):
 
-```bash
-git clone https://github.com/BnayaHami/ripe-now.git
-cd ripe-now
-python -m http.server 8000      # or: npx serve .
-# open http://localhost:8000
-```
+**https://bnayahami.github.io/ripe-now/**
 
-Windows PowerShell works the same way. While developing, open DevTools (F12) → Network → tick **Disable cache** (and *Application → Service Workers → Bypass for network*) so you always see your latest edits.
+For the best experience, install it on your phone as described below.
 
-## Install as an app (PWA)
+## Install on your phone
 
-- **Android / Chrome:** menu → *Install app* / *Add to Home screen*.
-- **iPhone / Safari:** Share → *Add to Home Screen*.
-- **Desktop Chrome / Edge:** install icon in the address bar.
+You can use the app in the browser, but installing it puts the leaf icon on your home screen, opens it full screen like a regular app, and lets it work offline.
 
-Offline behaviour: after the first visit the interface, data and illustrations work without a connection. The map basemap tiles you viewed are cached (up to 400). iNaturalist observations and the first-time map outline need a connection (the outline is then cached in the browser).
+**Android (Chrome)**
+1. Open the link above in Chrome and wait a few seconds for the page to load.
+2. Tap the **⋮** menu, then **Install app** (or **Add to Home screen**), and confirm.
+3. Open it from the new icon on your home screen.
+
+**iPhone (Safari only)**
+1. Open the link above in **Safari**. Other iPhone browsers can't install it.
+2. Tap the **Share** button (the square with an arrow), scroll down and tap **Add to Home Screen**, then **Add**.
+3. Open it from the new icon on your home screen.
+
+**Computer (Chrome or Edge):** click the install icon at the right end of the address bar.
+
+**Offline use:** after your first visit with an internet connection, the crop list, calendar and crop sheets also work without one. The map shows the areas you viewed before. Observation dots and the first-time map outline need a connection.
+
+**Updates** arrive on their own: open the app while online, and close and reopen it once to get the newest version.
 
 ## Project structure
 
@@ -52,7 +59,7 @@ data.js                 the crop dataset (seasons, regions, sources, notes)
 sw.js                   service worker (offline cache)
 manifest.webmanifest    PWA manifest
 icons/                  app icons (192, 512, maskable, apple-touch, favicon)
-*.png                   crop illustrations (same folder as index.html)
+images/                 crop illustrations (20 PNG files)
 docs/                   detailed documentation (see below)
 ```
 
@@ -85,6 +92,6 @@ Seasons and regions were **compiled from public sources** (KKL's wild-flower dat
 ## License
 
 - **Code** (`index.html`, `sw.js`, `data.js` structure, docs): [MIT](LICENSE).
-- **Illustrations** (`*.png`) and the **curated data values**: © the project author. Please ask before reusing the artwork. *(Change this section if you prefer a different license, for example CC BY-NC 4.0 for the artwork.)*
+- **Illustrations** (`images/`) and the **curated data values**: © the project author. Please ask before reusing the artwork.
 
 Built with the help of an AI assistant (Claude by Anthropic) for code and research, and reviewed by the author.

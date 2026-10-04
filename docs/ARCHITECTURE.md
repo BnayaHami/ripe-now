@@ -11,7 +11,7 @@
 | `sw.js` | Service worker: offline cache and update strategy. |
 | `manifest.webmanifest` | PWA metadata (name, icons, colors, display mode). |
 | `icons/` | App icons: 192, 512, maskable 512, apple-touch 180, favicon 32. |
-| `*.png` (root) | Crop illustrations, named in each crop's `img` field. File names are case-sensitive on GitHub Pages. |
+| `images/` | Crop illustrations, referenced by the `img` path of each crop. File names are case-sensitive on GitHub Pages. |
 
 External libraries are loaded from CDNs: Leaflet 1.9.4 (cdnjs), Turf.js 6.5.0 and topojson-client 3.1.0 (jsDelivr). Fonts: Google Fonts "Suez One" (headings) and "Secular One" (body). Both have a single weight, so `<b>` is set to `font-weight: 400`.
 
@@ -107,7 +107,7 @@ The API is public and rate-limited. The app makes a small number of requests per
 | Esri map tiles | Cache first, capped at 400 tiles. |
 | iNaturalist, Nominatim | Not handled by the worker (network only). |
 
-On install the worker pre-caches the shell and every illustration one by one (a missing image does not fail the install). Old caches are deleted on activate. **Bump `VERSION` in `sw.js` on every release**, and add new illustration file names to `CORE_FILES` (images are also cached on first use even if you forget).
+On install the worker pre-caches the shell and every illustration one by one (a missing image does not fail the install). Old caches are deleted on activate. **Bump `VERSION` in `sw.js` on every release**, and add new illustration paths to `CORE_FILES` (images are also cached on first use even if you forget).
 
 ## 9. Design system
 

@@ -9,14 +9,14 @@ Your project folder must contain, side by side:
 ```
 index.html  data.js  sw.js  manifest.webmanifest  icons/  README.md  README.he.md
 LICENSE  CHANGELOG.md  CONTRIBUTING.md  docs/  .gitignore  .nojekyll
-all 20 illustration PNG files
+images/   (all 20 illustration PNG files)
 ```
 
-Check that every `img` file name in `data.js` exists with **exactly** the same capitalization (GitHub Pages is case-sensitive; Windows is not, so a typo can work locally and break online).
+Check that every `img` path in `data.js` points to a file in `images/` with **exactly** the same capitalization (GitHub Pages is case-sensitive; Windows is not, so a typo can work locally and break online).
 
 ```powershell
-# PowerShell, from the project folder: list image names that data.js expects but are missing
-node -e "global.window={};eval(require('fs').readFileSync('data.js','utf8'));const fs=require('fs');window.CROPS.forEach(c=>{if(!fs.readdirSync('.').includes(c.img))console.log('MISSING',c.img)});console.log('done')"
+# from the project folder: list images that data.js expects but are missing in images/
+node -e "global.window={};eval(require('fs').readFileSync('data.js','utf8'));const fs=require('fs'),p=require('path');const have=fs.readdirSync('images');window.CROPS.forEach(c=>{if(!have.includes(p.basename(c.img)))console.log('MISSING',c.img)});console.log('done')"
 ```
 
 The `node -e` check compares exact names, so it also catches capitalization mistakes.
@@ -28,15 +28,15 @@ Create an empty repository on GitHub (no README, no license, since the project a
 ```powershell
 git init
 git add .
-git commit -m "Release 1.0.0"
+git commit -m "Release 1.0.1"
 git branch -M main
-git remote add origin https://github.com/<your-username>/<repo-name>.git
+git remote add origin https://github.com/BnayaHami/ripe-now.git
 git push -u origin main
 ```
 
 ## 3. Turn on GitHub Pages
 
-Repository → **Settings** → **Pages** → *Build and deployment* → Source: **Deploy from a branch** → Branch: `main`, folder `/ (root)` → Save. After a minute the site is live at `https://<your-username>.github.io/<repo-name>/`.
+Repository → **Settings** → **Pages** → *Build and deployment* → Source: **Deploy from a branch** → Branch: `main`, folder `/ (root)` → Save. After a minute the site is live at `https://bnayahami.github.io/ripe-now/`.
 
 Put that address in the README ("Live app") and in the repository description. Add topics such as `pwa`, `israel`, `foraging`, `hebrew`, `leaflet`, `inaturalist`.
 
@@ -78,7 +78,7 @@ Settings → Pages → *Custom domain*, then add the DNS records GitHub lists. K
 | Symptom | Likely cause and fix |
 |---|---|
 | I don't see my changes | Browser or service-worker cache. DevTools → Application → Service Workers → *Unregister*, then hard refresh (Ctrl+Shift+R). While developing tick *Bypass for network* / *Disable cache*. |
-| Illustration missing online but fine locally | Capitalization or extension mismatch in `img`. |
+| Illustration missing online but fine locally | Capitalization or extension mismatch in `img`, or the file is not inside `images/`. |
 | Map outline looks wrong or old | Clear site data, or bump `isr-v5` after changing geometry logic. Check Console and Network for Nominatim and `land-10m.json` errors. |
 | "Cannot create image" on calendar export | The page is opened from `file://`. Use localhost or the https site. |
 | Not offered as installable | Not served over https, manifest error, or missing icons. See step 4. |

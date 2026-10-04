@@ -6,21 +6,13 @@ Thank you for helping make the data more accurate. The most valuable contributio
 
 ## Reporting a data mistake / דיווח על טעות בנתונים
 
-Open an issue and include:
+Open an issue on GitHub and include:
 
 1. The crop (Hebrew name or `id`).
 2. What is wrong: season months, peak, a region, a note.
 3. What it should be, with a **source** (link, book, or a dated field observation with place and photo).
 
 Examples of good evidence: Flora of Israel Online, KKL's wild-flower database, a Plants Board report, an iNaturalist observation link with date and location, your own dated record.
-
-## Pull requests
-
-1. Fork, create a branch.
-2. Edit `data.js` following [docs/DATA-SCHEMA.md](docs/DATA-SCHEMA.md). Lower `conf` if sources disagree and explain in `note`.
-3. Run the validation script from the schema document.
-4. Update [docs/DATA-SOURCES.md](docs/DATA-SOURCES.md) and [CHANGELOG.md](CHANGELOG.md), and bump `VERSION` in `sw.js`.
-5. Open the pull request and describe the evidence.
 
 ## Code changes
 

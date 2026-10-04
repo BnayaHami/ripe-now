@@ -1,4 +1,4 @@
-/* Service worker, "עכשיו בעונה" (Ripe Now). Version 1.0.0
+/* Service worker, "עכשיו בעונה" (Ripe Now). Version 1.0.1
    Bump VERSION on every release so that old caches are removed.
    Strategy:
    - index.html and data.js: network first, cache as offline fallback (updates arrive immediately when online).
@@ -6,7 +6,7 @@
    - CDN libraries and fonts: stale-while-revalidate.
    - map tiles (Esri): cache first, capped at 400 tiles.
    - iNaturalist and Nominatim APIs: never cached by the worker (the page handles failures). */
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 const CORE = "ripe-now-core-" + VERSION;
 const RUNTIME = "ripe-now-runtime-" + VERSION;
 const TILES = "ripe-now-tiles";
@@ -19,26 +19,26 @@ const CORE_FILES = [
   "icons/icon-192.png",
   "icons/icon-512.png",
   "icons/apple-touch-icon.png",
-  "painterly_green_plum_cluster.png",
-  "watercolor_red_berry_botanical_sprig.png",
-  "watercolor_strawberry_tree_branch.png",
-  "painterly_olive_branch_with_three_olives.png",
-  "botanical_carob_branch_illustration.png",
-  "botanical_almond_branch_illustration.png",
-  "painterly_loquat_branch_botanical_illustration.png",
-  "mulberry_sprig_in_bloom.png",
-  "Prickly_Pear_Botanical_Still_Life.png",
-  "watercolor_pomegranate_branch_still_life.png",
-  "watercolor_elderflower_botanical_branch.png",
-  "botanical_elderberry_sprig_watercolor.png",
-  "Watercolor_Pitanga_Branch_with_Glossy_Fruits.png",
-  "passion_fruit_botanical_still_life.png",
-  "painterly_pecan_branch_illustration.png",
-  "botanical_fig_branch_still_life.png",
-  "watercolor_jujube_branch_with_cut_fruit.png",
-  "botanical_raspberry_branch_study.png",
-  "Myrtle_Branch_with_Blossoms_and_Berries.png",
-  "botanical_pine_cone_still_life.png"
+  "images/Painterly_Green_Plum_Cluster.png",
+  "images/Watercolor_Red_Berry_Botanical_Sprig.png",
+  "images/Watercolor_Strawberry_Tree_Branch.png",
+  "images/Painterly_Olive_Branch_with_Three_Olives.png",
+  "images/Botanical_Carob_Branch_Illustration.png",
+  "images/Botanical_Almond_Branch_Illustration.png",
+  "images/Painterly_Loquat_Branch_Botanical_Illustration.png",
+  "images/Mulberry_Sprig_in_Bloom.png",
+  "images/Prickly_Pear_Botanical_Still_Life.png",
+  "images/Watercolor_Pomegranate_Branch_Still_Life.png",
+  "images/Watercolor_Elderflower_Botanical_Branch.png",
+  "images/Botanical_Elderberry_Sprig_Watercolor.png",
+  "images/Watercolor_Pitanga_Branch_with_Glossy_Fruits.png",
+  "images/Passion_Fruit_Botanical_Still_Life.png",
+  "images/Painterly_Pecan_Branch_Illustration.png",
+  "images/Botanical_Fig_Branch_Still_Life.png",
+  "images/Watercolor_Jujube_Branch_with_Cut_Fruit.png",
+  "images/Botanical_Raspberry_Branch_Study.png",
+  "images/Myrtle_Branch_with_Blossoms_and_Berries.png",
+  "images/Botanical_Pine_Cone_Still_Life.png"
 ];
 const CDN_HOSTS = ["cdnjs.cloudflare.com", "cdn.jsdelivr.net", "fonts.googleapis.com", "fonts.gstatic.com"];
 const TILE_HOST = "server.arcgisonline.com";

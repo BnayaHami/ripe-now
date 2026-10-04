@@ -8,7 +8,7 @@
 {
   id: "sumac",
   he: "סומק",
-  img: "watercolor_red_berry_botanical_sprig.png",
+  img: "images/Watercolor_Red_Berry_Botanical_Sprig.png",
   col: "#d98a8a",
   s: [8, 11],            // season: August to November
   p: [9, 10],            // peak: September to October (must be inside s)
@@ -28,7 +28,7 @@
 |---|---|---|---|
 | `id` | string | yes | Unique, lowercase, hyphenated. Used for map selection and the `.ics` UID. |
 | `he` | string | yes | Hebrew display name. A name with " – " is split into two lines in the PNG export (used for the two elder entries). |
-| `img` | string | yes | Illustration file name in the same folder as `index.html`. **Case-sensitive** on GitHub Pages. |
+| `img` | string | yes | Path of the illustration inside the `images/` folder, for example `images/Mulberry_Sprig_in_Bloom.png`. **Case-sensitive** on GitHub Pages. |
 | `col` | string | yes | Fallback color (`#rrggbb`) if the image is missing. |
 | `s` | `[m1, m2]` | yes | Season, months 1–12 (1 = January). `m1 <= m2`. Cannot wrap over the new year. |
 | `p` | `[m1, m2]` | yes | Peak, inside `s`. |
@@ -58,9 +58,9 @@ Region seed points and names live in the `ZONES` constant in `index.html`. To ad
 
 ## Adding a crop
 
-1. Add the illustration PNG next to `index.html` (a transparent or cream background looks best; around 600 px is plenty).
+1. Add the illustration PNG to the `images/` folder (a transparent or cream background looks best; around 600 px is plenty).
 2. Append an object to `window.CROPS` in `data.js` with every required field.
-3. Add the PNG file name to `CORE_FILES` in `sw.js` (optional but recommended for offline use).
+3. Add the PNG path (`images/<name>.png`) to `CORE_FILES` in `sw.js` (optional but recommended for offline use).
 4. Bump `VERSION` in `sw.js` and the `?v=` query on `data.js` in `index.html`.
 5. Open the app, check the console for a warning (`p` outside `s`), the calendar row, the sheet and the map.
 

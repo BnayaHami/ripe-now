@@ -4,7 +4,7 @@
 
 A mobile-first, installable web app (PWA, Hebrew, right-to-left) that tracks what is in season in Israel: wild and cultivated fruits, flowers and plants for people who make liqueurs, ferments, pickles and preserves (sumac, unripe green plums, katlav, olives, elderflower and more). It tells you what is ripe now, what starts soon, where in Israel you are most likely to find it, and gives you a calendar reminder so you are ready with jars and salt in time.
 
-> **Live app:** `https://BnayaHami.github.io/ripe-now/` (replace after publishing)
+> **Live app:** `https://BnayaHami.github.io/ripe-now/`
 > **Version:** 1.0.0 · **License:** MIT for the code (see [License](#license))
 
 <!-- Add screenshots to docs/screenshots/ and uncomment:
@@ -81,14 +81,6 @@ Seasons and regions were **compiled from public sources** (KKL's wild-flower dat
 - **Libraries (CDN):** [Leaflet](https://leafletjs.com/) 1.9.4, [Turf.js](https://turfjs.org/) 6.5.0, [topojson-client](https://github.com/topojson/topojson-client) 3.1.0.
 - **Fonts:** Suez One and Secular One (Google Fonts, SIL OFL).
 - **Illustrations:** original watercolor-style artwork by the project author (see License).
-
-## Roadmap
-
-1. A script that computes real peak months per crop from iNaturalist observation histograms.
-2. A personal foraging log (local to the device).
-3. Curated recipe links instead of search queries.
-4. A per-crop `src` review with field-verified dates, and finer regions (separate Judean and Jerusalem hills).
-5. Optional push-style reminders.
 
 ## License
 

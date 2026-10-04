@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F6F0E4">
+<meta name="description" content="מה בעונה בישראל: לוח עונות, מפה ותצפיות לפירות, פרחים וצמחי בר ללקט, לכבוש ולהתסיס.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="עכשיו בעונה">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>עכשיו בעונה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Secular+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--bg:#F6F0E4;--paper:#FFFBF2;--ink:#4d4236;--mute:#8a7d6b;--line:#E6DAC4;--peak:#A9C9A0;--early:#DCE8D0;--late:#F2D6B5;--accent:#8a5fa3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Secular One",sans-serif;padding:env(safe-area-inset-top) 0 calc(72px + env(safe-area-inset-bottom))}
+h1,h2,h3,.item b,nav button{font-family:"Suez One",serif;font-weight:400}
+b{font-weight:400;color:var(--accent)}
+header{padding:30px 20px 6px;text-align:center}h1{font-size:2.4rem;line-height:1.1}
+header p{margin:6px 0 0;color:var(--mute)}
+main{padding:0 16px;max-width:640px;margin:auto}
+section{display:none}section.on{display:block}
+h2{font-size:1.4rem;margin:24px 4px 10px}
+.item{display:flex;gap:14px;align-items:center;width:100%;text-align:start;background:var(--paper);border:1.5px solid var(--line);color:inherit;font:inherit;border-radius:26px;padding:10px 14px;margin-bottom:12px;cursor:pointer}
+.plate{flex:none;width:78px;height:78px;border-radius:20px;background:#fff;border:1.5px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.plate img{width:100%;height:100%;object-fit:contain}.dot{width:50%;height:50%;border-radius:50%}
+.item b{display:block;font-size:1.15rem;color:var(--ink)}.item small{color:var(--mute);line-height:1.3;display:block}
+.tag{margin-inline-start:auto;flex:none;font-size:.78rem;padding:3px 10px;border-radius:99px;background:#E7E4DD;color:var(--mute)}.tag.early{background:var(--early);color:var(--ink)}
+.tag.peak{background:var(--peak);color:var(--ink)}.tag.late{background:var(--late);color:var(--ink)}
+.empty{color:var(--mute);padding:8px 4px}
+.cal{background:var(--paper);border:1.5px solid var(--line);border-radius:22px;padding:14px 10px;overflow-x:auto}
+.row{display:grid;grid-template-columns:150px repeat(12,22px);gap:3px;align-items:center;margin-bottom:6px;min-width:432px}
+.row .n{display:flex;align-items:center;gap:6px;font-size:.78rem;line-height:1.1}.th{width:34px;height:34px;flex:none;border-radius:9px;background:#fff;border:1px solid var(--line);object-fit:contain}
+.row i{height:22px;border-radius:7px;background:#E3E0DA;opacity:.8}
+.row i.early{background:var(--early);opacity:1}.row i.late{background:var(--late);opacity:1}.row i.peak{background:var(--peak);opacity:1}
+.row.h i{background:none;height:auto;font-style:normal;font-size:.62rem;text-align:center;color:var(--mute);opacity:1}
+.row i.now{outline:2px solid var(--accent)}
+.tg{display:flex;flex-wrap:wrap;gap:8px 20px;margin:10px 4px 0}.tg input{accent-color:var(--accent);width:18px;height:18px;vertical-align:middle;margin-inline-end:6px}
+#map{direction:ltr;height:60vh;border-radius:22px;margin-top:8px;border:1.5px solid var(--line)}
+.cl{background:none;border:0;box-shadow:none;font:12px "Secular One",sans-serif;color:#4d4236;text-shadow:0 0 3px #fff,0 0 3px #fff}.cl:before{display:none}
+.legend{background:#fffbf2ee;padding:8px 10px;border-radius:12px;font-size:.78rem;line-height:1.7;direction:rtl}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:middle;margin-inline-end:6px}
+select{width:100%;font:inherit;padding:12px;border-radius:16px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink)}
+nav{position:fixed;bottom:0;inset-inline:0;display:flex;background:var(--paper);border-top:1.5px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;border:0;background:none;color:var(--mute);font-size:1.1rem;padding:14px 0;cursor:pointer}
+nav button.on{color:var(--accent)}
+dialog{border:0;border-radius:28px 28px 0 0;background:var(--paper);color:var(--ink);width:100%;max-width:640px;margin:auto auto 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom))}
+dialog::backdrop{background:#3b302666}
+dialog .plate{width:150px;height:150px;margin:0 auto 8px}
+dialog h3{text-align:center;font-size:1.6rem}dialog p{margin:6px 0}.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.btn{font:.95rem "Secular One",sans-serif;padding:10px 16px;border-radius:99px;border:2px solid var(--accent);background:none;color:var(--accent);text-decoration:none;cursor:pointer}
+.btn.f{background:var(--accent);color:#fff}
+.note{color:var(--mute);font-size:.85rem;margin:14px 4px}.note a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<header><h1>עכשיו בעונה</h1><p id="sub"></p></header>
+<main>
+ <section id="now" class="on"><h2>בעונה עכשיו</h2><div id="l-peak"></div><h2>מתחילים בקרוב</h2><div id="l-soon"></div><h2>בהמשך השנה</h2><div id="l-later"></div></section>
+ <section id="cal"><h2>כל השנה במבט אחד</h2><div class="cal" id="grid"></div><div class="btns"><button class="btn f" id="dl">הורדת לוח שנה כתמונה</button></div>
+  <p class="note">ירוק כהה הוא שיא העונה, ירוק בהיר תחילתה וכתום סופה. החודשים זורמים מימין לשמאל, כמו בעברית: ינואר בצד ימין. העמודה המסומנת היא החודש הנוכחי.</p></section>
+ <section id="mapv"><h2>איפה לחפש</h2><select id="sel"></select><div class="tg"><label><input type="checkbox" id="tz" checked>אזורים</label><label><input type="checkbox" id="to" checked>תצפיות</label><label><input type="checkbox" id="tl">העונה האחרונה בלבד</label></div><div id="map"></div>
+  <p class="note" id="mapnote"></p>
+  <p class="note">ראיתם עץ, פרי או צמח בשטח? צלמו והעלו ל-<a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a>. כל תצפית מוסיפה נקודה למפה, ועוזרת לדייק את העונות לכולנו.</p></section>
+<p class="note" style="text-align:center">גרסה 1 · 03.10.2026</p></main>
+<nav><button class="on" data-t="now">עכשיו</button><button data-t="cal">לוח שנה</button><button data-t="mapv">מפה</button></nav>
+<dialog id="dlg"></dialog>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="data.js?v=1.0.0"></script>
+<script>
+const M=["ינו","פבר","מרץ","אפר","מאי","יונ","יול","אוג","ספט","אוק","נוב","דצמ"],MN=["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"];
+// כל אזור הוא נקודה אחת או יותר [קו רוחב, קו אורך]. המפה מחולקת לפאזל לפי הקרבה לנקודות (דיאגרמת וורונוי) ונחתכת לפי הגבול.
+const ZONES={ge:["גליל עליון",[[33.12,35.4]]],go:["גולן",[[33.2,35.75],[32.9,35.72]]],gt:["גליל תחתון",[[32.8,35.3]]],ca:["כרמל",[[32.68,35.02]]],
+jz:["עמק יזרעאל",[[32.6,35.3]]],sp:["שרון",[[32.3,34.92]]],sa:["שומרון",[[32.2,35.25]]],jv:["בקעת הירדן",[[32.35,35.5],[31.9,35.45]]],
+ju:["הרי יהודה וירושלים",[[31.75,35.1]]],sh:["שפלה",[[31.75,34.82]]],gz:["רצועת עזה",[[31.4,34.4]]],ds:["מדבר יהודה וים המלח",[[31.5,35.35]]],
+ng:["הנגב",[[31.1,34.85],[30.55,34.9]]],ar:["ערבה ואילת",[[30.2,35.1],[29.7,34.97]]]};
+const D1=new Date(Date.now()-5*365.25*864e5).toISOString().slice(0,10);
+const now=new Date().getMonth()+1,$=id=>document.getElementById(id);
+const fd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+function lastSeason(c){const y=new Date().getFullYear(),yr=now<c.s[0]?y-1:y,e=new Date(yr,c.s[1],0),t=new Date();return[fd(new Date(yr,c.s[0]-1,1)),fd(e>t?t:e)]}
+const st=(c,m)=>m<c.s[0]||m>c.s[1]?"":m>=c.p[0]&&m<=c.p[1]?"peak":m<c.p[0]?"early":"late";
+CROPS.forEach(c=>{if(c.p[0]<c.s[0]||c.p[1]>c.s[1])console.warn("שיא מחוץ לעונה:",c.he)});
+$("sub").textContent=MN[now-1]+": מה כדאי לקטוף, לכבוש ולהשרות";
+
+const art=c=>`<img src="${c.img}" alt="" loading="lazy" onerror="this.outerHTML='<i class=dot style=background:${c.col}></i>'">`;
+function item(c,tx,cls){const b=document.createElement("button");b.className="item";
+ b.innerHTML=`<span class="plate">${art(c)}</span><span><b>${c.he}</b><small>${c.use}</small></span><span class="tag ${cls}">${tx}</span>`;b.onclick=()=>sheet(c);return b}
+function fill(){const T={peak:"שיא",early:"תחילת עונה",late:"סוף עונה"},un=c=>(c.s[0]-now+12)%12;
+ const inS=CROPS.filter(c=>st(c,now)).sort((a,b)=>(st(b,now)=="peak")-(st(a,now)=="peak")),rest=CROPS.filter(c=>!st(c,now)).sort((a,b)=>un(a)-un(b));
+ inS.forEach(c=>$("l-peak").append(item(c,T[st(c,now)],st(c,now))));
+ rest.forEach(c=>$(un(c)<=2?"l-soon":"l-later").append(item(c,un(c)==1?"בחודש הבא":"בעוד "+un(c)+" חודשים","")));
+ [["l-peak","אין כרגע גידולים בעונה."],["l-soon","אין עונות שמתחילות בקרוב."],["l-later","אין עוד גידולים להצגה."]].forEach(x=>{if(!$(x[0]).children.length)$(x[0]).innerHTML=`<p class="empty">${x[1]}</p>`});
+ let h=`<div class="row h"><span></span>${M.map(x=>`<i>${x}</i>`).join("")}</div>`;
+ CROPS.forEach(c=>{h+=`<div class="row"><span class="n"><img class="th" src="${c.img}" alt="" onerror="this.style.visibility='hidden'">${c.he}</span>${M.map((_,i)=>`<i class="${st(c,i+1)}${i+1==now?" now":""}"></i>`).join("")}</div>`});
+ $("grid").innerHTML=h;$("sel").innerHTML=CROPS.map(c=>`<option value="${c.id}">${c.he}</option>`).join("")}
+function ics(c){const s=c.s[0],y=new Date().getFullYear()+(s<now?1:0),d=new Date(y,s-1,1-14),p=n=>String(n).padStart(2,"0"),ds=`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`;
+ const t=`BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nUID:${c.id}@ripe-now\r\nDTSTAMP:${ds}T080000Z\r\nDTSTART;VALUE=DATE:${ds}\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:עונת ${c.he} מתקרבת\r\nDESCRIPTION:${c.prep}\r\nEND:VEVENT\r\nEND:VCALENDAR`;
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/calendar"}));a.download=c.id+".ics";a.click()}
+async function evidence(c){const el=$("ev"),u=x=>`https://api.inaturalist.org/v1/observations/histogram?taxon_name=${encodeURIComponent(c.inat)}&place_id=6815&interval=month_of_year&d1=${D1}${x}`;
+ const top=h=>{const e=Object.entries(h).sort((a,b)=>b[1]-a[1]).slice(0,3);return[e.map(x=>MN[x[0]-1]+" ("+x[1]+")").join(", "),Object.values(h).reduce((a,b)=>a+b,0)]};
+ try{const g=async x=>(await(await fetch(u(x))).json()).results.month_of_year,A=top(await g("")),B=top(await g(`&term_id=12&term_value_id=${c.term||14}`)),w=c.term==13?"פריחה":"פרי";
+  el.innerHTML=!A[1]?"אין תצפיות ב-5 השנים האחרונות":(B[1]>=5?`סומנו כ${w}: ${B[0]} (מתוך ${B[1]})<br>`:"")+`כל התצפיות: ${A[0]} (מתוך ${A[1]} ב-5 שנים)`+(B[1]<5?`<br><small>אין מספיק תצפיות שסומנו כ${w}, ולכן החודשים מבוססים על כל התצפיות, גם של עץ ללא ${w}.</small>`:"")}
+ catch(x){el.textContent="אין חיבור לנתוני iNaturalist"}}
+function sheet(c){const d=$("dlg"),q=encodeURIComponent(c.q||c.he.split(" ")[0]),rq=encodeURIComponent(c.q||c.he.replace(" – "," "));
+ d.innerHTML=`<div class="plate">${art(c)}</div><h3>${c.he}</h3>
+ <p><b>שיא העונה:</b> ${MN[c.p[0]-1]}${c.p[1]>c.p[0]?" עד "+MN[c.p[1]-1]:""}</p><p><b>שימושים:</b> ${c.use}</p><p><b>הכנות:</b> ${c.prep}</p>
+ <p><b>אזורים סבירים:</b> ${Object.keys(c.z).filter(k=>c.z[k]==2).map(k=>ZONES[k][0]).join(", ")}</p>
+ ${c.note?`<p class="note"><b>שימו לב:</b> ${c.note}</p>`:""}
+ <p class="note"><b>ביטחון בנתוני העונה:</b> ${["","נמוך","בינוני","גבוה"][c.conf||1]} · <b>מקורות:</b> ${c.src||"הערכה"}</p>
+ <p><b>תצפיות בשטח:</b> <span id="ev">טוען...</span></p><p class="note">חודשי העונה והאזורים מבוססים על מקורות פומביים ועדיין כדאי לאמת בשטח. שורת התצפיות מראה מתי צולמו בישראל צמחים עם פרי או פרחים.</p>
+ <div class="btns"><button class="btn f" id="ic">תזכורת שנתית</button><button class="btn" id="mp">הצג במפה</button>
+ <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q=מתכון+${rq}">מתכונים</a>
+ <a class="btn" target="_blank" rel="noopener" href="https://www.facebook.com/search/posts?q=${q}">פוסטים בפייסבוק</a><button class="btn" id="cl">סגור</button></div>`;
+ evidence(c);d.showModal();$("ic").onclick=()=>ics(c);$("cl").onclick=()=>d.close();
+ $("mp").onclick=()=>{d.close();tab("mapv");$("sel").value=c.id;draw()}}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>tab(b.dataset.t));
+function tab(t){document.querySelectorAll("section,nav button").forEach(e=>e.classList.remove("on"));$(t).classList.add("on");document.querySelector(`nav [data-t=${t}]`).classList.add("on");
+ if(t==="mapv"){init();setTimeout(()=>{map.invalidateSize();draw()},50)}}
+let map,zl,ol,ISR;
+function init(){if(map)return;map=L.map("map").setView([31.5,35.0],7);
+ L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",{maxZoom:13,attribution:"Tiles © Esri · Boundaries © OpenStreetMap contributors · Natural Earth"}).addTo(map);zl=L.layerGroup().addTo(map);ol=L.layerGroup().addTo(map);$("sel").onchange=()=>draw();$("tl").onchange=()=>draw(true);$("tz").onchange=()=>$("tz").checked?zl.addTo(map):map.removeLayer(zl);$("to").onchange=()=>$("to").checked?ol.addTo(map):map.removeLayer(ol);
+ const lg=L.control({position:"bottomright"});lg.onAdd=()=>{const d=L.DomUtil.create("div","legend");
+  d.innerHTML='<i style="background:#8a6bb0;opacity:.7"></i>אזור סביר מאוד<br><i style="background:#8a6bb0;opacity:.3"></i>אזור אפשרי<br><i style="background:#5E8C4A;border-radius:50%"></i>תצפית';return d};lg.addTo(map);
+ [["חיפה",32.79,34.99],["תל אביב",32.08,34.78],["ירושלים",31.77,35.21],["טבריה",32.79,35.53],["צפת",32.96,35.5],["נצרת",32.7,35.3],["באר שבע",31.25,34.79],["אילת",29.56,34.95],["עזה",31.5,34.47],["חברון",31.53,35.1],["שכם",32.22,35.26],["קריית שמונה",33.21,35.57],["נתניה",32.33,34.86],["אשדוד",31.8,34.65]].forEach(c=>L.circleMarker([c[1],c[2]],{radius:2.5,color:"#4d4236",weight:1,fillOpacity:1,interactive:false}).addTo(map).bindTooltip(c[0],{permanent:true,direction:"right",className:"cl",offset:[4,0]}))}
+// גבול ישראל, יהודה ושומרון, עזה והגולן מ-OpenStreetMap (Nominatim). נשמר בדפדפן אחרי הטעינה הראשונה.
+const GOLAN=[[35.62,33.33],[35.78,33.33],[35.8,33.1],[35.84,32.95],[35.8,32.8],[35.68,32.68],[35.65,32.9],[35.62,33.0],[35.62,33.33]];
+// יהודה ושומרון: בנתוני OpenStreetMap רק המובלעות (שטחי A ו-B) מסומנות ושטח C חסר, לכן הוספתי קו מזרחי משוער לאורך הירדן וים המלח. הצד המערבי נבלע בגבול ישראל.
+const WB=[[35.0,32.6],[35.5,32.6],[35.56,32.5],[35.55,32.3],[35.54,32.0],[35.53,31.87],[35.5,31.77],[35.42,31.6],[35.39,31.45],[35.38,31.35],[35.0,31.35],[35.0,32.6]];
+// קו חוף משוער, משמש רק אם קובץ היבשה לא נטען
+const COAST=[[33.4,35.1],[33.09,35.1],[32.92,35.07],[32.83,35.0],[32.83,34.96],[32.7,34.93],[32.5,34.89],[32.33,34.85],[32.17,34.79],[32.02,34.74],[31.8,34.64],[31.61,34.53],[31.5,34.44],[31.35,34.27],[31.22,34.27],[29.4,34.2],[29.4,37],[33.4,37]];
+// מנקה את הצורה: מסיר חורים וחלקים קטנים, ומאחד חלקים חופפים (למשל מובלעות ביו"ש) לצורה אחת שלמה
+const holeless=g=>{const P=(g.type=="Polygon"?[g.coordinates]:g.coordinates).map(p=>[p[0]]).filter(p=>turf.area(turf.polygon(p))>2e6).map(p=>turf.polygon(p)),G=P.reduce((a,b)=>turf.union(a,b)).geometry;
+ return{type:"MultiPolygon",coordinates:(G.type=="Polygon"?[G.coordinates]:G.coordinates).map(p=>[p[0]])}};
+async function land(){try{const t=await(await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-10m.json")).json(),f=topojson.feature(t,t.objects.land),P=[];
+  (f.features||[f]).forEach(x=>{const c=turf.bboxClip(x,[33,28.3,37,34]).geometry;(c.type=="Polygon"?[c.coordinates]:c.coordinates).forEach(p=>{if(p[0]&&p[0].length>3)P.push(p)})});
+  return turf.multiPolygon(P)}catch(e){return turf.polygon([[...COAST,COAST[0]].map(p=>[p[1],p[0]])])}}
+// גבול ישראל, יהודה ושומרון, עזה והגולן מ-OpenStreetMap, בלי הים (לפי קו החוף של Natural Earth). נשמר בדפדפן אחרי הטעינה הראשונה.
+async function israel(){if(ISR!==undefined)return ISR;
+ try{let t=null;try{t=localStorage.getItem("isr-v5")}catch(e){}
+  if(!t){const N="https://nominatim.openstreetmap.org/",q="&format=json&polygon_geojson=1&polygon_threshold=0.003",get=async u=>await(await fetch(u)).json(),
+    ok=r=>{const b=r.boundingbox.map(Number);return r.geojson&&b[0]>29&&b[1]<33.6&&b[2]>34&&b[3]<36.3};
+   let res=(await get(N+"lookup?osm_ids=R1473946,R1703814"+q)).filter(ok);
+   if(res.length<2)res=(await Promise.all([get(N+"search?country=Israel&limit=1"+q),get(N+"search?q=State+of+Palestine&limit=1"+q)])).flat().filter(ok);
+   let u=res.map(r=>turf.feature(r.geojson)).reduce((a,b)=>turf.union(a,b));
+   u=turf.union(turf.union(u,turf.polygon([GOLAN])),turf.polygon([WB]));const g=turf.feature(holeless(u.geometry));let f;
+   try{f=turf.intersect(g,await land())}catch(e){f=turf.intersect(g,turf.polygon([[...COAST,COAST[0]].map(p=>[p[1],p[0]])]))}
+   t=JSON.stringify(holeless(f.geometry));try{localStorage.setItem("isr-v5",t)}catch(e){}}
+  ISR=turf.feature(JSON.parse(t))}catch(e){ISR=false}return ISR}
+let PZ;
+function puzzle(isr){if(PZ)return PZ;const pts=[],by={};PZ={};for(const k in ZONES)ZONES[k][1].forEach(p=>pts.push(turf.point([p[1],p[0]],{k})));
+ turf.voronoi(turf.featureCollection(pts),{bbox:[30,25,40,36]}).features.forEach(f=>{const p=pts.find(q=>turf.booleanPointInPolygon(q,f));if(p)(by[p.properties.k]=by[p.properties.k]||[]).push(f)});
+ for(const k in by){try{const f=turf.intersect(by[k].reduce((a,b)=>turf.union(a,b)),isr);if(f)PZ[k]=f}catch(e){}}return PZ}
+async function draw(kv){const c=CROPS.find(x=>x.id===$("sel").value);zl.clearLayers();ol.clearLayers();const hit=[],isr=await israel(),ss=lastSeason(c);
+ if(isr){if(!window.brd)window.brd=L.geoJSON(isr,{interactive:false,style:{color:"#6b5f4f",weight:2,fill:false}}).addTo(map);
+  const pz=puzzle(isr);for(const k in ZONES){if(!pz[k])continue;const v=c.z[k]||0,sty=v?{color:"#8a6bb0",weight:1.5,fillColor:"#8a6bb0",fillOpacity:v==2?.5:.22}:{color:"#a89b85",weight:1,fillOpacity:0};
+   const g=L.geoJSON(pz[k],{style:()=>sty}).addTo(zl).bindTooltip(ZONES[k][0]+(v==2?" (סביר מאוד)":v?" (אפשרי)":""));if(v)hit.push(g)}}
+ if(hit.length&&!kv)map.fitBounds(L.featureGroup(hit).getBounds().pad(.3));
+ $("mapnote").textContent=(isr?"המפה מחולקת לאזורים טבעיים בקירוב, בתוך גבולות ישראל, יהודה ושומרון, רצועת עזה והגולן (נתוני OpenStreetMap). קווי ההפרדה בין האזורים משוערים.":"הגבולות לא נטענו (נדרש חיבור לאינטרנט). נסו לרענן.")+" הנקודות הירוקות הן תצפיות iNaturalist "+($("tl").checked?"מהעונה האחרונה ("+ss[0]+" עד "+ss[1]+")":"מחמש השנים האחרונות")+".";
+ try{const r=await fetch(`https://api.inaturalist.org/v1/observations?taxon_name=${encodeURIComponent(c.inat)}&place_id=6815&per_page=200&order_by=observed_on&order=desc&d1=${$("tl").checked?ss[0]:D1}${$("tl").checked?"&d2="+ss[1]:""}`);
+  (await r.json()).results.forEach(o=>{if(o.geojson)L.circleMarker([o.geojson.coordinates[1],o.geojson.coordinates[0]],{radius:5,color:"#5E8C4A"}).addTo(ol).bindPopup(`${o.observed_on||""}<br><a href="${o.uri}" target="_blank" rel="noopener">לתצפית ב-iNaturalist</a>`)})}catch(e){}}
+const rr=(x,a,b,w,h,r,f)=>{x.fillStyle=f;x.beginPath();x.roundRect?x.roundRect(a,b,w,h,r):x.rect(a,b,w,h);x.fill()};
+async function shot(){try{await document.fonts.load("60px 'Suez One'");await document.fonts.load("20px 'Secular One'");
+ const W=1500,R=150,H=250+CROPS.length*R+110,cv=document.createElement("canvas");cv.width=W;cv.height=H;const x=cv.getContext("2d");
+ x.fillStyle="#F6F0E4";x.fillRect(0,0,W,H);x.textAlign="center";x.fillStyle="#4d4236";x.font="68px 'Suez One'";x.fillText("עכשיו בעונה",W/2,105);
+ x.font="26px 'Secular One'";x.fillStyle="#8a7d6b";x.fillText("לוח עונות לליקרים, כבישות והתססות",W/2,150);
+ const im=await Promise.all(CROPS.map(c=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=c.img}))),C={peak:"#A9C9A0",early:"#DCE8D0",late:"#F2D6B5","":"#E3E0DA"};
+ M.forEach((m,i)=>x.fillText(m,1060-i*66-31,225));
+ CROPS.forEach((c,r)=>{const y=250+r*R,i=im[r];rr(x,W-170,y+10,130,130,22,"#fff");
+  if(i){const s=Math.min(122/i.width,122/i.height);x.drawImage(i,W-170+(130-i.width*s)/2,y+10+(130-i.height*s)/2,i.width*s,i.height*s)}else{x.fillStyle=c.col;x.beginPath();x.arc(W-105,y+75,30,0,7);x.fill()}
+  x.textAlign="right";x.fillStyle="#4d4236";x.font="34px 'Suez One'";const n=c.he.split(" – ");n.forEach((t,j)=>x.fillText(t,W-190,y+(n.length>1?72+j*42:88)));
+  M.forEach((_,k)=>rr(x,1060-(k+1)*66+4,y+47,62,56,10,C[st(c,k+1)]))});
+ x.font="24px 'Secular One'";x.textAlign="right";[["שיא העונה","peak"],["תחילת עונה","early"],["סוף עונה","late"]].forEach((l,i)=>{const px=W-60-i*260;rr(x,px-30,H-80,30,30,8,C[l[1]]);x.fillStyle="#4d4236";x.fillText(l[0],px-42,H-56)});
+ cv.toBlob(b=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="ripe-now-calendar.png";a.click()})}
+ catch(e){alert("לא ניתן ליצור תמונה. יש לפתוח את האתר דרך שרת (localhost או GitHub Pages) ולא כקובץ מקומי.")}}
+$("dl").onclick=shot;
+fill();
+</script>
+<script>
+// PWA: שירות עבודה לפעולה ללא חיבור והתקנה למסך הבית (דורש https או localhost)
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>

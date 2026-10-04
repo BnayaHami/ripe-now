@@ -9,9 +9,8 @@
 > **האפליקציה באוויר:** `https://bnayahami.github.io/ripe-now/`
 > **גרסה:** 1.0.2 · **רישיון:** MIT לקוד (ראו [רישיון](#רישיון))
 
-<!-- אפשר להוסיף צילומי מסך ל-docs/screenshots/ ולהסיר את ההערה:
-![עכשיו](docs/screenshots/now.png) ![לוח שנה](docs/screenshots/calendar.png) ![מפה](docs/screenshots/map.png)
--->
+![עכשיו](docs/screenshots/now.jpeg) ![לוח שנה](docs/screenshots/calendar.jpeg) ![מפה](docs/screenshots/map.jpeg)
+
 
 ## מה יש באפליקציה
 

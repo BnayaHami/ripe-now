@@ -7,8 +7,7 @@ A mobile-first, installable web app (PWA, Hebrew, right-to-left) that tracks wha
 > **Live app:** `https://bnayahami.github.io/ripe-now/`
 > **Version:** 1.0.2 · **License:** MIT for the code (see [License](#license))
 
-![Now tab](docs/screenshots/now.jpeg) ![Calendar](docs/screenshots/calendar.jpeg) ![Map](docs/screenshots/map.jpeg)
-
+<table align="center"><tr><td align="center"><img src="docs/screenshots/now.jpeg" width="220" alt="Now tab"><br><sub>Now</sub></td><td align="center"><img src="docs/screenshots/calendar.jpeg" width="220" alt="Calendar tab"><br><sub>Calendar</sub></td><td align="center"><img src="docs/screenshots/map.jpeg" width="220" alt="Map tab"><br><sub>Map</sub></td></tr></table>
 
 ## Features
 

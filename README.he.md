@@ -9,8 +9,7 @@
 > **האפליקציה באוויר:** `https://bnayahami.github.io/ripe-now/`
 > **גרסה:** 1.0.2 · **רישיון:** MIT לקוד (ראו [רישיון](#רישיון))
 
-![עכשיו](docs/screenshots/now.jpeg) ![לוח שנה](docs/screenshots/calendar.jpeg) ![מפה](docs/screenshots/map.jpeg)
-
+<table align="center"><tr><td align="center"><img src="docs/screenshots/now.jpeg" width="220" alt="לשונית עכשיו"><br><sub>עכשיו</sub></td><td align="center"><img src="docs/screenshots/calendar.jpeg" width="220" alt="לשונית לוח שנה"><br><sub>לוח שנה</sub></td><td align="center"><img src="docs/screenshots/map.jpeg" width="220" alt="לשונית מפה"><br><sub>מפה</sub></td></tr></table>
 
 ## מה יש באפליקציה
 

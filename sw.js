@@ -1,4 +1,4 @@
-/* Service worker, "עכשיו בעונה" (Ripe Now). Version 1.0.1
+/* Service worker, "עכשיו בעונה" (Ripe Now). Version 1.0.2
    Bump VERSION on every release so that old caches are removed.
    Strategy:
    - index.html and data.js: network first, cache as offline fallback (updates arrive immediately when online).
@@ -6,7 +6,7 @@
    - CDN libraries and fonts: stale-while-revalidate.
    - map tiles (Esri): cache first, capped at 400 tiles.
    - iNaturalist and Nominatim APIs: never cached by the worker (the page handles failures). */
-const VERSION = "1.0.1";
+const VERSION = "1.0.2";
 const CORE = "ripe-now-core-" + VERSION;
 const RUNTIME = "ripe-now-runtime-" + VERSION;
 const TILES = "ripe-now-tiles";

@@ -125,3 +125,4 @@ No analytics, no cookies, no accounts. The browser stores only the cached countr
 - Season and region data are compiled estimates (see [DATA-SOURCES.md](DATA-SOURCES.md)).
 - Browser support: modern evergreen browsers (service workers, `<dialog>`, ES2017+). Safari on iOS supports installation through *Add to Home Screen* but limits background caching.
 - Seasons cannot cross the new year.
+- The Facebook posts search link (`facebook.com/search/posts?q=...`) does not work on phones, because Facebook has no public search API and the mobile app and site do not handle that URL. It works from a desktop browser.

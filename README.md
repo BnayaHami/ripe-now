@@ -5,7 +5,7 @@
 A mobile-first, installable web app (PWA, Hebrew, right-to-left) that tracks what is in season in Israel: wild and cultivated fruits, flowers and plants for people who make liqueurs, ferments, pickles and preserves (sumac, unripe green plums, katlav, olives, elderflower and more). It tells you what is ripe now, what starts soon, where in Israel you are most likely to find it, and gives you a calendar reminder so you are ready with jars and salt in time.
 
 > **Live app:** `https://bnayahami.github.io/ripe-now/`
-> **Version:** 1.0.1 · **License:** MIT for the code (see [License](#license))
+> **Version:** 1.0.2 · **License:** MIT for the code (see [License](#license))
 
 <!-- Add screenshots to docs/screenshots/ and uncomment:
 ![Now tab](docs/screenshots/now.png) ![Calendar](docs/screenshots/calendar.png) ![Map](docs/screenshots/map.png)
@@ -20,7 +20,7 @@ A mobile-first, installable web app (PWA, Hebrew, right-to-left) that tracks wha
 | **Map** | A puzzle-style map of Israel, Judea & Samaria, the Gaza Strip and the Golan. Purple regions mark where a crop is *very likely* or *possible*; green dots are real iNaturalist observations (last 5 years, or the latest season only). Hebrew city labels, relief basemap. |
 | **Crop sheet** | Peak months, uses, preparation checklist, likely regions, a practical note and legal caveats, a confidence rating, the sources, and a live observation summary from iNaturalist. |
 | **Yearly reminder** | Downloads an `.ics` calendar event (all day, yearly, 14 days before the season starts) with the preparation list in the description. |
-| **Links** | Google search for recipes and a Facebook posts search for each crop. |
+| **Links** | Google search for recipes and a Facebook posts search for each crop. *Known limitation: the Facebook search link does not work on phones. Use it from a computer, or search inside the Facebook app.* |
 | **PWA** | Installable to the home screen, works offline for the list, calendar and crop sheets, and updates itself when online. |
 
 ## Use the app

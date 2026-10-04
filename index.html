@@ -35,11 +35,11 @@ h2{font-size:1.4rem;margin:24px 4px 10px}
 .tag.peak{background:var(--peak);color:var(--ink)}.tag.late{background:var(--late);color:var(--ink)}
 .empty{color:var(--mute);padding:8px 4px}
 .cal{background:var(--paper);border:1.5px solid var(--line);border-radius:22px;padding:14px 10px;overflow-x:auto}
-.row{display:grid;grid-template-columns:150px repeat(12,22px);gap:3px;align-items:center;margin-bottom:6px;min-width:432px}
-.row .n{display:flex;align-items:center;gap:6px;font-size:.78rem;line-height:1.1}.th{width:34px;height:34px;flex:none;border-radius:9px;background:#fff;border:1px solid var(--line);object-fit:contain}
+.row{display:grid;grid-template-columns:116px repeat(12,minmax(0,1fr));gap:3px;align-items:center;margin-bottom:6px}
+.row .n{display:flex;align-items:center;gap:6px;font-size:.78rem;line-height:1.15;min-width:0}.th{width:34px;height:34px;flex:none;border-radius:9px;background:#fff;border:1px solid var(--line);object-fit:contain}
 .row i{height:22px;border-radius:7px;background:#E3E0DA;opacity:.8}
 .row i.early{background:var(--early);opacity:1}.row i.late{background:var(--late);opacity:1}.row i.peak{background:var(--peak);opacity:1}
-.row.h i{background:none;height:auto;font-style:normal;font-size:.62rem;text-align:center;color:var(--mute);opacity:1}
+.row.h i{background:none;height:auto;font-style:normal;font-size:.56rem;letter-spacing:-.2px;text-align:center;color:var(--mute);opacity:1}
 .row i.now{outline:2px solid var(--accent)}
 .tg{display:flex;flex-wrap:wrap;gap:8px 20px;margin:10px 4px 0}.tg input{accent-color:var(--accent);width:18px;height:18px;vertical-align:middle;margin-inline-end:6px}
 #map{direction:ltr;height:60vh;border-radius:22px;margin-top:8px;border:1.5px solid var(--line)}
@@ -69,13 +69,13 @@ dialog h3{text-align:center;font-size:1.6rem}dialog p{margin:6px 0}.btns{display
  <section id="mapv"><h2>איפה לחפש</h2><select id="sel"></select><div class="tg"><label><input type="checkbox" id="tz" checked>אזורים</label><label><input type="checkbox" id="to" checked>תצפיות</label><label><input type="checkbox" id="tl">העונה האחרונה בלבד</label></div><div id="map"></div>
   <p class="note" id="mapnote"></p>
   <p class="note">ראיתם עץ, פרי או צמח בשטח? צלמו והעלו ל-<a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a>. כל תצפית מוסיפה נקודה למפה, ועוזרת לדייק את העונות לכולנו.</p></section>
-<p class="note" style="text-align:center">גרסה 1.0.1 · 04.10.2026</p></main>
+<p class="note" style="text-align:center">גרסה 1.0.2 · 04.10.2026</p></main>
 <nav><button class="on" data-t="now">עכשיו</button><button data-t="cal">לוח שנה</button><button data-t="mapv">מפה</button></nav>
 <dialog id="dlg"></dialog>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
-<script src="data.js?v=1.0.1"></script>
+<script src="data.js?v=1.0.2"></script>
 <script>
 const M=["ינו","פבר","מרץ","אפר","מאי","יונ","יול","אוג","ספט","אוק","נוב","דצמ"],MN=["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"];
 // כל אזור הוא נקודה אחת או יותר [קו רוחב, קו אורך]. המפה מחולקת לפאזל לפי הקרבה לנקודות (דיאגרמת וורונוי) ונחתכת לפי הגבול.
@@ -100,7 +100,7 @@ function fill(){const T={peak:"שיא",early:"תחילת עונה",late:"סוף 
  rest.forEach(c=>$(un(c)<=2?"l-soon":"l-later").append(item(c,un(c)==1?"בחודש הבא":"בעוד "+un(c)+" חודשים","")));
  [["l-peak","אין כרגע גידולים בעונה."],["l-soon","אין עונות שמתחילות בקרוב."],["l-later","אין עוד גידולים להצגה."]].forEach(x=>{if(!$(x[0]).children.length)$(x[0]).innerHTML=`<p class="empty">${x[1]}</p>`});
  let h=`<div class="row h"><span></span>${M.map(x=>`<i>${x}</i>`).join("")}</div>`;
- CROPS.forEach(c=>{h+=`<div class="row"><span class="n"><img class="th" src="${c.img}" alt="" onerror="this.style.visibility='hidden'">${c.he}</span>${M.map((_,i)=>`<i class="${st(c,i+1)}${i+1==now?" now":""}"></i>`).join("")}</div>`});
+ CROPS.forEach(c=>{h+=`<div class="row"><span class="n"><img class="th" src="${c.img}" alt="" onerror="this.style.visibility='hidden'"><span>${c.he.replace(" – ","<br>")}</span></span>${M.map((_,i)=>`<i class="${st(c,i+1)}${i+1==now?" now":""}"></i>`).join("")}</div>`});
  $("grid").innerHTML=h;$("sel").innerHTML=CROPS.map(c=>`<option value="${c.id}">${c.he}</option>`).join("")}
 function ics(c){const s=c.s[0],y=new Date().getFullYear()+(s<now?1:0),d=new Date(y,s-1,1-14),p=n=>String(n).padStart(2,"0"),ds=`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`;
  const t=`BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nUID:${c.id}@ripe-now\r\nDTSTAMP:${ds}T080000Z\r\nDTSTART;VALUE=DATE:${ds}\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:עונת ${c.he} מתקרבת\r\nDESCRIPTION:${c.prep}\r\nEND:VEVENT\r\nEND:VCALENDAR`;

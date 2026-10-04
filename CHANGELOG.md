@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 · 2026-10-04
+- Calendar: the calendar now fits phone screens without horizontal scrolling. Crop names that contain a dash (the two black elder entries) are shown on two lines.
+- README: documented that the Facebook search link does not work on phones.
+
 ## 1.0.1 · 2026-10-04
 - Illustrations moved to an `images/` folder; `img` paths in `data.js` and the service worker cache list updated.
 - Fixed illustrations that did not appear on GitHub Pages: the paths in `data.js` now match the real file names exactly, including capitalization.
